@@ -1,8 +1,11 @@
-package com.example.studentsvladapp.dto;
+package com.example.studentsvladapp.dto.request;
 
+import com.example.studentsvladapp.entity.Stock;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -13,5 +16,6 @@ public class AddStudentRequestDto {
     private Long groupId;
     private String surname;
     private int studentStatus;
+    private List<Stock> idStocks;
 
 }

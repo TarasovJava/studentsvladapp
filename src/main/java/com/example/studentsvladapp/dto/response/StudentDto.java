@@ -1,4 +1,4 @@
-package com.example.studentsvladapp.dto;
+package com.example.studentsvladapp.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,5 +17,6 @@ public class StudentDto {
     private String surname;
     private LocalDate createStudentAt;
     private int studentStatus;
+
 
 }

@@ -1,8 +1,8 @@
 package com.example.studentsvladapp.controller;
 
-import com.example.studentsvladapp.dto.AddGroupRequestDto;
-import com.example.studentsvladapp.dto.GroupsResponseDto;
-import com.example.studentsvladapp.dto.SingleGroupResponseDto;
+import com.example.studentsvladapp.dto.request.AddGroupRequestDto;
+import com.example.studentsvladapp.dto.response.GroupsResponseDto;
+import com.example.studentsvladapp.dto.response.SingleGroupResponseDto;
 import com.example.studentsvladapp.service.GroupService;
 import com.example.studentsvladapp.service.StudentService;
 import org.springframework.web.bind.annotation.*;

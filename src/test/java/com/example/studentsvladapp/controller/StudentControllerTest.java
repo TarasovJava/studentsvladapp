@@ -1,6 +1,6 @@
 package com.example.studentsvladapp.controller;
 
-import com.example.studentsvladapp.dto.AddStudentRequestDto;
+import com.example.studentsvladapp.dto.request.AddStudentRequestDto;
 import com.example.studentsvladapp.entity.Group;
 import com.example.studentsvladapp.entity.Student;
 import com.example.studentsvladapp.repository.GroupRepository;

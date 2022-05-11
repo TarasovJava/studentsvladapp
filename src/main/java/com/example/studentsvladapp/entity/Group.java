@@ -42,15 +42,5 @@ public class Group {
         student.setGroup(this);
     }
 
-    @Override
-    public String toString() {
-        return "Group{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", createGroupAt=" + createGroupAt +
-                ", groupStatus=" + groupStatus +
-                ", students=" + students +
-                '}';
-    }
 }
 

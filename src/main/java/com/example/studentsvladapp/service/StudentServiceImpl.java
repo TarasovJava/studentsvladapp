@@ -1,17 +1,22 @@
 package com.example.studentsvladapp.service;
 
-import com.example.studentsvladapp.dto.AddStudentRequestDto;
-import com.example.studentsvladapp.dto.StudentsResponseDto;
+import com.example.studentsvladapp.dto.request.AddStudentRequestDto;
+import com.example.studentsvladapp.dto.response.StudentsResponseDto;
 import com.example.studentsvladapp.entity.Group;
 import com.example.studentsvladapp.entity.Student;
+import com.example.studentsvladapp.kafka.dto.MessageTinkoffDto;
+import com.example.studentsvladapp.kafka.dto.StockDto;
+import com.example.studentsvladapp.kafka.producer.Producer;
 import com.example.studentsvladapp.repository.GroupRepository;
 import com.example.studentsvladapp.repository.StudentRepository;
+import org.apache.kafka.clients.consumer.Consumer;
+import org.apache.kafka.clients.consumer.ConsumerRecords;
+import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -20,11 +25,16 @@ public class StudentServiceImpl implements StudentService {
     static final int STUDENT_ACTIVE = 1;
     static final int STUDENT_DONT_ACTIVE = 0;
 
+
+    private ConsumerFactory<String, MessageTinkoffDto> consumerFactory;
+    private final Producer producer;
     private final GroupRepository groupRepository;
     private final StudentRepository studentRepository;
 
-    public StudentServiceImpl(GroupRepository groupRepository, StudentRepository studentRepository) {
+
+    public StudentServiceImpl(GroupRepository groupRepository, StudentRepository studentRepository, Producer producer) {
         this.groupRepository = groupRepository;
+        this.producer = producer;
         this.studentRepository = studentRepository;
     }
 
@@ -45,6 +55,7 @@ public class StudentServiceImpl implements StudentService {
             student.setGroup(group);
             student.setCreateStudentAt(LocalDate.now());
             student.setStudentStatus(STUDENT_ACTIVE);
+            student.setIdStocks(addStudentRequestDto.getIdStocks());
             // group.addStudentToGroup(student);
             //3. Сохраняем студента
             studentRepository.save(student);
@@ -57,6 +68,9 @@ public class StudentServiceImpl implements StudentService {
             });
             Student student = byId.get();
             student.setSurname(addStudentRequestDto.getSurname());
+            if (addStudentRequestDto.getIdStocks() != null){
+                student.setIdStocks(addStudentRequestDto.getIdStocks());
+            }
             studentRepository.save(student);
         }
     }
@@ -91,8 +105,26 @@ public class StudentServiceImpl implements StudentService {
                         .setSurname(e.getSurname())
                         .setCreateStudentAt(e.getCreateStudentAt())
                         .setGroupId(e.getGroup().getId())
-                        .setStudentStatus(e.getStudentStatus()))
+                        .setStudentStatus(e.getStudentStatus())
+                        .setStocksDto(getStockStudent(e)))
                 .collect(Collectors.toList());
+    }
+
+    private List<StockDto> getStockStudent(Student student) {
+        var stocksDto = new ArrayList<StockDto>();
+        student.getIdStocks().forEach(stock -> {
+            stocksDto.add(new StockDto().setTicker(stock.getIdStocks()));
+        });
+        var messageTinkoffDto = new MessageTinkoffDto()
+                .setRequestId(student.getId())
+                .setStocksDto(stocksDto);
+        producer.send(messageTinkoffDto, "in-tinkoff-stocks");
+
+        Consumer<String, MessageTinkoffDto> consumer = consumerFactory.createConsumer();
+        consumer.subscribe(Collections.singleton("out-tinkoff-result"));
+        ConsumerRecords<String, MessageTinkoffDto> records = consumer.poll(Duration.ofSeconds(20));
+
+        return records.iterator().next().value().getStocksDto();
     }
 
     //  List<StudentsResponseDto> studentsResponseDtos = new ArrayList<>();

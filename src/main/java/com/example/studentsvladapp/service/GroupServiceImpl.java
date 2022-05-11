@@ -1,9 +1,9 @@
 package com.example.studentsvladapp.service;
 
-import com.example.studentsvladapp.dto.AddGroupRequestDto;
-import com.example.studentsvladapp.dto.GroupsResponseDto;
-import com.example.studentsvladapp.dto.SingleGroupResponseDto;
-import com.example.studentsvladapp.dto.StudentDto;
+import com.example.studentsvladapp.dto.request.AddGroupRequestDto;
+import com.example.studentsvladapp.dto.response.GroupsResponseDto;
+import com.example.studentsvladapp.dto.response.SingleGroupResponseDto;
+import com.example.studentsvladapp.dto.response.StudentDto;
 import com.example.studentsvladapp.entity.Group;
 import com.example.studentsvladapp.entity.Student;
 import com.example.studentsvladapp.repository.GroupRepository;

@@ -1,11 +1,8 @@
 package com.example.studentsvladapp.controller;
 
-import com.example.studentsvladapp.dto.AddGroupRequestDto;
-import com.example.studentsvladapp.dto.AddStudentRequestDto;
-import com.example.studentsvladapp.dto.GroupsResponseDto;
-import com.example.studentsvladapp.dto.StudentsResponseDto;
+import com.example.studentsvladapp.dto.request.AddStudentRequestDto;
+import com.example.studentsvladapp.dto.response.StudentsResponseDto;
 import com.example.studentsvladapp.service.StudentService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

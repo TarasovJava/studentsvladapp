@@ -1,7 +1,7 @@
 package com.example.studentsvladapp.service;
 
-import com.example.studentsvladapp.dto.AddStudentRequestDto;
-import com.example.studentsvladapp.dto.StudentsResponseDto;
+import com.example.studentsvladapp.dto.request.AddStudentRequestDto;
+import com.example.studentsvladapp.dto.response.StudentsResponseDto;
 
 import java.util.List;
 

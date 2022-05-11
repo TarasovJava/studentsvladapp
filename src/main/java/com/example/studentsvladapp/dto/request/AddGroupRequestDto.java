@@ -1,4 +1,4 @@
-package com.example.studentsvladapp.dto;
+package com.example.studentsvladapp.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
